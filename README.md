@@ -11,6 +11,6 @@ Simple File server using sinatra. Learning project to get more familier with ERB
 * Better Page Organization
 * javascript... (ugh)
 * Private files 
-	* Private/<username>/folder
+	* Private/\<username\>/folder
 	* control/manage space usage
 * Admin portal
