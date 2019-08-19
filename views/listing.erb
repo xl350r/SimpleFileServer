@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+		<style type="text/css">
+			h2 {
+				margin: 0px;
+				padding: -10px;
+				font-family: 'Roboto', sans-serif;
+				font-size: 50px;
+			}
+			p {
+				padding-top: -50px
+			}
+			table{
+				border-collapse: collapse;
+				border: 1px solid black;
+			}
+			th, td{
+				text-align: left;
+				padding: 8px
+			} 
+			tr:nth-child(even){background-color: #f2f2f2;}	
+		</style>
+	</head>
+	<body>
+	<h2 align="center"> Public Files </h2>
+	<p align="center">
+		<br><a href="/" > HomePage </a> </br>
+		<a href="/upload"> Upload </a> 
+	</p>
+	<table align="center">
+		<tr>
+		<th>Filename</th>
+		<th>Download</th>
+		<th>Remove</th>
+		<th>View</th>
+		</tr>
+		<% @files.each do |f| %>
+		<%="<tr>"%>
+		<%="<td> #{f}</td>"%>
+		<%="<td><a href=\"/download/#{f}\"> Download </a> </td>"%>
+		<%="<td><a href=\"/remove/#{f}\"> Remove </a>  </td>"%>
+		<%="<td><a href=\"/public/#{f}\"> View </a>  </td>"%>
+		<%="</tr>\n" %>
+		<% end %>
+	</table>
+	</body>
+</html>
