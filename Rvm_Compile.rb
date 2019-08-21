@@ -8,3 +8,5 @@ def execute(bytefile)
 	instructions = RubyVM::InstructionSequence.load_from_binary byte_code
 	instructions.eval
 end
+
+

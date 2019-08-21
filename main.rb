@@ -9,13 +9,16 @@ class WebServ < Sinatra::Base
 	get "/" do
 		erb :index
 	end
-
-	get "/upload" do
-		erb :file
+	
+	#get "/upload" do
+	#	erb :file
+	#end
+	get "/admin" do 
+		"<h1> UNDER CONSTRUCTION </1>"
 	end
-
 	post "/upload" do
 		@filename = params[:file][:filename]
+			puts "#{@filename} \t #{@filename.class}"
 		file = params[:file][:tempfile]
 		if not File.exist?("./public/#{@filename}")
 			File.open("./public/#{@filename}", "wb") do |f|

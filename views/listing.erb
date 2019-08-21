@@ -20,6 +20,32 @@
 				padding: 8px
 			} 
 			tr:nth-child(even){background-color: #f2f2f2;}	
+			.box {
+
+			}
+			.upload-btn-wrapper {
+			  position: relative;
+			  overflow: hidden;
+			  display: inline-block;
+			}
+
+			.btn {
+			  border: 2px solid gray;
+			  color: gray;
+			  background-color: white;
+			  padding: 8px 20px;
+			  border-radius: 8px;
+			  font-size: 20px;
+			  font-weight: bold;
+			}
+
+			.upload-btn-wrapper input[type=file] {
+			  font-size: 100px;
+			  position: absolute;
+			  left: 0;
+			  top: 0;
+			  opacity: 0;
+			}
 		</style>
 	</head>
 	<body>
@@ -44,5 +70,17 @@
 		<%="</tr>\n" %>
 		<% end %>
 	</table>
+
+		<form method="post" action="/upload" enctype="multipart/form-data" align="center">
+			<div class="file">
+			<label for="file" class="file">
+				<input type="file" id="file" aria-label="file" name="file" class="custom-file-input">
+			</label>
+			</div>
+			<div class="upload-btn-wrapper">
+				<button class="btn">Submit</button>
+			</div>
+		</form>
+
 	</body>
 </html>
