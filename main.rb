@@ -10,19 +10,31 @@ class WebServ < Sinatra::Base
 		erb :index
 	end
 	
-	#get "/upload" do
-	#	erb :file
-	#end
+	not_found do
+		status 404
+		"<h1> 404 This page does not exist</h1> <p> redirecting in 5 seconds</p>"
+	end
+	get "/login" do
+		erb :login
+	end
+	post "/login" do
+		if params['user'] != nil and params['password'] != nil 
+			puts params
+		end
+		redirect "/listing"
+	end
 	get "/admin" do 
 		"<h1> UNDER CONSTRUCTION </1>"
 	end
 	post "/upload" do
-		@filename = params[:file][:filename]
-			puts "#{@filename} \t #{@filename.class}"
-		file = params[:file][:tempfile]
-		if not File.exist?("./public/#{@filename}")
-			File.open("./public/#{@filename}", "wb") do |f|
-				f.write(file.read)
+		if params[:file] != nil 
+			@filename = params[:file][:filename]
+				puts "#{@filename} \t #{@filename.class}"
+			file = params[:file][:tempfile]
+			if not File.exist?("./public/#{@filename}")
+				File.open("./public/#{@filename}", "wb") do |f|
+					f.write(file.read)
+				end
 			end
 		end
 		redirect "/listing"

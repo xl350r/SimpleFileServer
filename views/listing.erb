@@ -20,8 +20,16 @@
 				padding: 8px
 			} 
 			tr:nth-child(even){background-color: #f2f2f2;}	
-			.box {
-
+			.file{
+				border: 2px solid gray;
+				color: gray;
+				background: white;
+				padding: 8px 20px;
+				padding-top: -20px;  
+				border-radius: 8px;
+				overflow: hidden; 
+				position: center;
+				margin-top: 20px;
 			}
 			.upload-btn-wrapper {
 			  position: relative;
@@ -38,7 +46,6 @@
 			  font-size: 20px;
 			  font-weight: bold;
 			}
-
 			.upload-btn-wrapper input[type=file] {
 			  font-size: 100px;
 			  position: absolute;
@@ -51,8 +58,12 @@
 	<body>
 	<h2 align="center"> Public Files </h2>
 	<p align="center">
-		<br><a href="/" > HomePage </a> </br>
-		<a href="/upload"> Upload </a> 
+		<br>
+		<a href="/"  class="icon-block">
+		<i class="icon-home icon-4x"></i> 
+		<span> Homepage </span>
+		</a> 
+	</br>
 	</p>
 	<table align="center">
 		<tr>
@@ -62,19 +73,19 @@
 		<th>View</th>
 		</tr>
 		<% @files.each do |f| %>
-		<%="<tr>"%>
-		<%="<td> #{f}</td>"%>
-		<%="<td><a href=\"/download/#{f}\"> Download </a> </td>"%>
-		<%="<td><a href=\"/remove/#{f}\"> Remove </a>  </td>"%>
-		<%="<td><a href=\"/public/#{f}\"> View </a>  </td>"%>
-		<%="</tr>\n" %>
+			<%="<tr>"%>
+				<%="<td> #{f}</td>"%>
+				<%="<td><a href=\"/download/#{f}\"> Download </a> </td>"%>
+				<%="<td><a href=\"/remove/#{f}\"> Remove </a>  </td>"%>
+				<%="<td><a href=\"/public/#{f}\"> View </a>  </td>"%>
+			<%="</tr>\n" %>
 		<% end %>
 	</table>
 
 		<form method="post" action="/upload" enctype="multipart/form-data" align="center">
-			<div class="file">
-			<label for="file" class="file">
-				<input type="file" id="file" aria-label="file" name="file" class="custom-file-input">
+			<div class="box">
+			<label for="file" class="">
+				<input type="file" id="file" name="file">
 			</label>
 			</div>
 			<div class="upload-btn-wrapper">
