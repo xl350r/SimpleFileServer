@@ -3,6 +3,7 @@ require 'webrick'
 require "webrick/https"
 require 'openssl'
 require "erb"
+require 'fileutils'
 CERT_PATH = "./certs/"
 class WebServ < Sinatra::Base
 	enable :sessions, :logging
@@ -88,4 +89,8 @@ webrick_options = {
   :SSLCertName        => [ [ "CN",WEBrick::Utils::getservername ] ],
   :app                => WebServ
 }
+if not File.exist?(__dir__ + "/public/")
+	FileUtils.mkdir_p(__dir__ + "/public/")
+end
+Dir.chdir(__dir__)
 Rack::Server.start webrick_options
