@@ -12,7 +12,7 @@ class WebServ < Sinatra::Base
 	
 	not_found do
 		status 404
-		"<h1> 404 This page does not exist</h1> <p> redirecting in 5 seconds</p>"
+		"<h1> 404 This page does not exist</h1> <p> redirecting in 5 seconds</p> <meta http-equiv=\"refresh\" content=\"5; url=/listing\" />"
 	end
 	get "/login" do
 		erb :login
