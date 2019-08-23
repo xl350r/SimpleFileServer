@@ -2,4 +2,5 @@
 *.cert
 *.crt
 public/*
+!public/
 .DS_Store
