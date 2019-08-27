@@ -4,7 +4,7 @@ require "webrick/https"
 require 'openssl'
 require "erb"
 require 'fileutils'
-CERT_PATH = "./certs/"
+CERT_PATH = __dir__ + "/certs/"
 class WebServ < Sinatra::Base
 	enable :sessions, :logging
 	get "/" do
@@ -33,8 +33,8 @@ class WebServ < Sinatra::Base
 				@filename = file["filename"]
 					puts "#{@filename} \t #{@filename.class}"
 				tempfile = file[:tempfile]
-				if not File.exist?("./public/#{@filename}")
-					File.open("./public/#{@filename}", "wb") do |f|
+				if not File.exist?(__dir__ + "/public/#{@filename}")
+					File.open(__dir__ + "/public/#{@filename}", "wb") do |f|
 						f.write(tempfile.read)
 					end
 				end
@@ -44,7 +44,7 @@ class WebServ < Sinatra::Base
 	end
 
 	get "/listing" do
-		@files= Dir.entries("./public/")
+		@files= Dir.entries(__dir__ + "/public/")
 		@files.delete(".")
 		@files.delete("..")
 		erb :listing
@@ -52,15 +52,15 @@ class WebServ < Sinatra::Base
 	end
 
 	get '/download/:filename' do |filename|
-		send_file "./public/#{filename}", :filename => filename, :type => "Application/octet-stream"
+		send_file __dir__ + "/public/#{filename}", :filename => filename, :type => "Application/octet-stream"
 		redirect "/listing"
 	end
 
 	get '/remove/:filename' do |filename|
-		if File.exist?("./public/#{filename}")
-			File.delete("./public/#{filename}")
+		if File.exist?(__dir__ + "/public/#{filename}")
+			File.delete(__dir__ + "/public/#{filename}")
 		end
-		files= Dir.entries("./public")
+		files= Dir.entries(__dir__ + "/public")
 		files.delete(".")
 		files.delete("..")
 		if files.length == 0
@@ -70,8 +70,8 @@ class WebServ < Sinatra::Base
 		end
 	end
 	get '/public/:filename' do |filename|
-		if File.exist?("./public/#{filename}")
-			send_file "./public/#{filename}"
+		if File.exist?(__dir__ + "/public/#{filename}")
+			send_file __dir__ + "/public/#{filename}"
 		else
 			"<h1>File not found return <a href='/'> home </a></h1>"
 		end
@@ -92,5 +92,5 @@ webrick_options = {
 if not File.exist?(__dir__ + "/public/")
 	FileUtils.mkdir_p(__dir__ + "/public/")
 end
-Dir.chdir(__dir__)
+#Dir.chdir(__dir__)
 Rack::Server.start webrick_options
