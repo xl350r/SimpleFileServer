@@ -38,15 +38,6 @@ class WebServ < Sinatra::Base
 	get "/" do
 		erb :index
 	end
-	get "/98.css" do
-		send_file "/views/98.css"
-	end
-	get "/docs.vss" do
-		send_file "/views/docs.vss"
-	end
-	get "/vs.css" do
-		send_file "/views/vs.css"
-	end
 
 	not_found do
 		status 404
@@ -83,7 +74,6 @@ class WebServ < Sinatra::Base
 		if params[:file] != nil 
 			params[:file].each do |file|
 				@filename = file["filename"]
-				#puts "#{@filename} \t #{@filename.class}"
 				if @filename.include?("#") 
 					redirect "/illegal_file"
 				end
