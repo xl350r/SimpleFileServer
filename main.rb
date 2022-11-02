@@ -5,33 +5,88 @@ require 'openssl'
 require "erb"
 require 'fileutils'
 CERT_PATH = __dir__ + "/certs/"
+class Auth 
+	attr_accessor :credentials
+	def initialize(credentials)
+		self.credentials = credentials
+	end
+end
+
 class WebServ < Sinatra::Base
 	enable :sessions, :logging
+	set :public_folder, __dir__ + '/pub/'
+	$authenticated_sessions = []
+	use Rack::Session::Pool, :expire_after => 2592000
+	before do   # Before every request, make sure they get assigned an ID.
+    session[:id] ||= SecureRandom.uuid
+	end
+	helpers do
+			def authenticated?
+				$authenticated_sessions.include? session[:id]
+			end
+	  	def authorize
+	  		if @auth == nil
+	  			redirect "/login"
+	  		end
+    		if @auth.credentials == ['admin', 'admin'] 
+   		 		$authenticated_sessions.push(session[:id])
+   		 	else
+   		 		redirect "/login"
+   		 	end
+  		end
+	end
 	get "/" do
 		erb :index
 	end
-	
+	get "/98.css" do
+		send_file "/views/98.css"
+	end
+	get "/docs.vss" do
+		send_file "/views/docs.vss"
+	end
+	get "/vs.css" do
+		send_file "/views/vs.css"
+	end
+
 	not_found do
 		status 404
-		"<h1> 404 This page does not exist</h1> <p> redirecting in 5 seconds</p> <meta http-equiv=\"refresh\" content=\"5; url=/listing\" />"
+		"""
+<html>
+	<head>
+		<link rel=\"stylesheet\" href=\"/stylesheets/98.css\" type=\"text/css\">
+		<link rel=\"stylesheet\" href=\"/stylesheets/vs.css\" type=\"text/css\">
+		<link rel=\"stylesheet\" href=\"/stylesheets/docs.css\" type=\"text/css\">
+	</head>
+	<h1> 404 This page does not exist</h1> <p> redirecting in 5 seconds</p> <meta http-equiv=\"refresh\" content=\"5; url=/listing\" />
+</html>
+"""
 	end
-	get "/login" do
-		erb :login
+
+	get "/illegal_file" do
+"""
+<html>
+	<head>
+		<link rel=\"stylesheet\" href=\"/stylesheets/98.css\" type=\"text/css\">
+		<link rel=\"stylesheet\" href=\"/stylesheets/vs.css\" type=\"text/css\">
+		<link rel=\"stylesheet\" href=\"/stylesheets/docs.css\" type=\"text/css\">
+	</head>
+	<h1> ERROR</h1> <p> File contains illegal characters </p>  <meta http-equiv=\"refresh\" content=\"5; url=/listing\" />
+</html>
+"""
+			redirect "/listing"
 	end
-	post "/login" do
-		if params['user'] != nil and params['password'] != nil 
-			puts params
-		end
-		redirect "/listing"
-	end
-	get "/admin" do 
-		"<h1> UNDER CONSTRUCTION </1>"
-	end
+
 	post "/upload" do
+		if not authenticated?
+			redirect "/login"
+		end
 		if params[:file] != nil 
 			params[:file].each do |file|
 				@filename = file["filename"]
-					puts "#{@filename} \t #{@filename.class}"
+				#puts "#{@filename} \t #{@filename.class}"
+				if @filename.include?("#") 
+					redirect "/illegal_file"
+				end
 				tempfile = file[:tempfile]
 				if not File.exist?(__dir__ + "/public/#{@filename}")
 					File.open(__dir__ + "/public/#{@filename}", "wb") do |f|
@@ -57,14 +112,17 @@ class WebServ < Sinatra::Base
 	end
 
 	get '/remove/:filename' do |filename|
+		if not authenticated?
+			redirect "login"
+		end
 		if File.exist?(__dir__ + "/public/#{filename}")
 			File.delete(__dir__ + "/public/#{filename}")
 		end
 		files= Dir.entries(__dir__ + "/public")
 		files.delete(".")
 		files.delete("..")
-		if files.length == 0
-			redirect "/upload"
+		if files.length == 0	
+			redirect "/listing"
 		else
 			redirect "/listing"
 		end
@@ -75,6 +133,35 @@ class WebServ < Sinatra::Base
 		else
 			"<h1>File not found return <a href='/'> home </a></h1>"
 		end
+	end
+	get "/Authenticated" do
+		"<h1> Authenticated! <h1> <meta http-equiv=\"refresh\" content=\"5; url=/listing\" />"
+	end
+
+	get "/logout" do
+			if authenticated?
+				$authenticated_sessions.delete session[:id]
+			end
+			redirect "/listing"
+	end
+	get "/login" do 
+		erb :login
+	end
+	post "/login" do
+		if params['user'] != nil and params['password'] != nil 
+			if authenticated? 
+				redirect "/Authenticated"
+			else
+				@auth = Auth.new [params['user'], params['password']]
+				authorize
+				if authenticated?
+					redirect "/Authenticated"
+				else
+					redirect "/login"
+				end
+			end
+		end
+		redirect "/listing"
 	end
 end
 

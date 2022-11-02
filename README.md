@@ -8,9 +8,7 @@ Simple File server using sinatra. Learning project to get more familier with ERB
 * openssl
 
 ### Todo
-* Authentication 
 * Better HTML5 / CSS
-* Sessions
 * Documentation
 * Better Page Organization
 * javascript... (ugh)
@@ -18,3 +16,6 @@ Simple File server using sinatra. Learning project to get more familier with ERB
 	* Private/\<username\>/folder
 	* control/manage space usage
 * Admin portal
+
+### Stylesheet
+https://jdan.github.io/98.css/

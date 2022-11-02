@@ -1,6 +1,8 @@
 <html>
 	<head>
-		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/stylesheets/98.css" type="text/css">
+        <link rel="stylesheet" href="/stylesheets/vs.css" type="text/css">
+        <link rel="stylesheet" href="/stylesheets/docs.css" type="text/css">
 		<style type="text/css">
 			h2 {
 				margin: 0px;
@@ -31,33 +33,17 @@
 				position: center;
 				margin-top: 20px;
 			}
-			.upload-btn-wrapper {
-			  position: relative;
-			  overflow: hidden;
-			  display: inline-block;
-			}
-
-			.btn {
-			  border: 2px solid gray;
-			  color: gray;
-			  background-color: white;
-			  padding: 8px 20px;
-			  border-radius: 8px;
-			  font-size: 20px;
-			  font-weight: bold;
-			}
-			.upload-btn-wrapper input[type=file] {
-			  font-size: 100px;
+			.bottomleft {
 			  position: absolute;
-			  left: 0;
-			  top: 0;
-			  opacity: 0;
+			  bottom: 8px;
+			  left: 16px;
+			  font-size: 18px;
 			}
 		</style>
 	</head>
 	<body>
 	<h2 align="center"> Public Files </h2>
-	<p align="center">
+	<p class="bottomleft">
 		<br>
 		<a href="/"  class="icon-block">
 		<i class="icon-home icon-4x"></i> 
@@ -81,14 +67,13 @@
 			<%="</tr>\n" %>
 		<% end %>
 	</table>
-
 		<form method="post" action="/upload" enctype="multipart/form-data" align="center">
-			<div class="box">
+			<div align="center" class="box">
 			<label for="file" class="">
 				<input type="file" id="file" name="file[]" multiple>
 			</label>
 			</div>
-			<div class="upload-btn-wrapper">
+			<div align="center" class="upload-btn-wrapper">
 				<button class="btn">Submit</button>
 			</div>
 		</form>
