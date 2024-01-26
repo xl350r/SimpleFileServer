@@ -1,0 +1,29 @@
+GEM
+  specs:
+    cgi (0.3.6)
+    erb (4.0.2)
+      cgi (>= 0.3.3)
+    mustermann (3.0.0)
+      ruby2_keywords (~> 0.0.1)
+    openssl (3.1.0)
+    rack (2.2.7)
+    rack-protection (3.0.6)
+      rack
+    ruby2_keywords (0.0.5)
+    sinatra (3.0.6)
+      mustermann (~> 3.0)
+      rack (~> 2.2, >= 2.2.4)
+      rack-protection (= 3.0.6)
+      tilt (~> 2.0)
+    tilt (2.2.0)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  erb
+  openssl
+  sinatra
+
+BUNDLED WITH
+   2.4.17

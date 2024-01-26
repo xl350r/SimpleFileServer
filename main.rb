@@ -28,7 +28,7 @@ class WebServ < Sinatra::Base
 	  		if @auth == nil
 	  			redirect "/login"
 	  		end
-    		if @auth.credentials == ['admin', 'admin'] 
+    		if @auth.credentials == ['admin', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec'] 
    		 		$authenticated_sessions.push(session[:id])
    		 	else
    		 		redirect "/login"
@@ -125,7 +125,7 @@ class WebServ < Sinatra::Base
 		end
 	end
 	get "/Authenticated" do
-		"<h1> Authenticated! <h1> <meta http-equiv=\"refresh\" content=\"5; url=/listing\" />"
+		"<h1> Authenticated! <h1> <br>You will be redirected soon...</br> <meta http-equiv=\"refresh\" content=\"5; url=/listing\" />"
 	end
 
 	get "/logout" do

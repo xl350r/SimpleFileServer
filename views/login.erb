@@ -76,6 +76,14 @@ body {
 }
 </style>
 </head>
+<script src="/js/CryptoJS/rollups/sha512.js"></script>
+<script>
+function hashThenSubmit(){
+  var hash = CryptoJS.SHA512(document.getElementById('password').value)
+  document.getElementById('password').value = hash
+  document.getElementById("login").submit()
+}
+</script>
 <div align="center">
 <h1 >Login</h1>
 <hr>
@@ -84,10 +92,10 @@ body {
 </div>
 <div class="login-page">
   <div class="form">
-    <form class="login-form" method="post" action="/login">
+    <form class="login-form" id="login" method="post" action="/login">
       <input type="text" name="user" placeholder="username"/>
-      <input type="password" name="password" placeholder="password"/>
-      <button>login</button>
+      <input type="password" id=password name="password" placeholder="password"/>
+      <button onclick="hashThenSubmit()">login</button>
     </form>
   </div>
 </div>
